@@ -1,0 +1,17 @@
+[
+    {
+      "_id": {
+        "$oid": "662e2710fdad18b80e452d90"
+      },
+      "name": "Victor Andersson",
+      "email": "Victor.Andersson@example.com",
+      "password": "s3curePa$$word",
+      "verifyPassword": "s3curePa$$word",
+      "username": "Victor_Andersson",
+      "about": "Enthusiastic developer",
+      "employment": "Software Engineer",
+      "hometown": "Helsingborg",
+      "website": "https://victorandersson.dev",
+      "avatarUrl": "https://picsum.photos/200",
+      "backgroundUrl": "https://picsum.photos/1920/1080"
+    },
