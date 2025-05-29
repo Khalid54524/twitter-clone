@@ -1,3 +1,5 @@
+/* eslint-disable no-extra-semi */
+/* eslint-disable react/prop-types */
 export default function Hashtags ({ hashtags }) {
     return (
       <div className="trending-hashtags">
