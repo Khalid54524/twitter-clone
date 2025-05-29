@@ -21,3 +21,17 @@ export default function Search({ searchQuery, handleSearch, searchResult }) {
           ))}
         </ul>
       )}
+       {searchResult &&
+        searchResult.hashtags &&
+        searchResult.hashtags.length > 0 && (
+          <ul>
+            {searchResult.hashtags.map((hashtag) => (
+              <li key={hashtag} data-testid={hashtag}>
+                {hashtag}
+              </li>
+            ))}
+          </ul>
+        )}
+    </div>
+  );
+}
