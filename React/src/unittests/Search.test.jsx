@@ -27,3 +27,45 @@ const MockParent = () => {
   });
   return <Search searchResult={searchResult} />;
 };
+
+export const AppContext = createContext();
+const renderWithContext = (ui, { providerProps, ...renderOptions }) => {
+  return render(
+    <AppContext.Provider value={providerProps}>
+      <Router>{ui}</Router>
+    </AppContext.Provider>,
+    renderOptions
+  );
+};
+
+describe("Search", () => {
+  test("renders a search bar", () => {
+    render(<Search />);
+    const searchBar = screen.getByRole("textbox");
+    expect(searchBar).toBeInTheDocument();
+  });
+
+  test("renders a user from search", () => {
+    renderWithContext(<MockParent />, {
+      providerProps: {
+        handleSearch: mockHandleSearch,
+      },
+    });
+    testUsers.forEach((testUser) => {
+      const userElement = screen.getByTestId(testUser.username);
+      expect(userElement).toBeInTheDocument();
+    });
+  });
+
+  test("renders a hashtag from search", () => {
+    renderWithContext(<MockParent />, {
+      providerProps: {
+        handleSearch: mockHandleSearch,
+      },
+    });
+    testHashtags.forEach((hashtag) => {
+      const hashtagElement = screen.getByTestId(hashtag);
+      expect(hashtagElement).toBeInTheDocument();
+    });
+  });
+});
