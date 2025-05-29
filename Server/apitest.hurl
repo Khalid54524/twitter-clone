@@ -3,11 +3,11 @@ POST http://localhost:9000/signup
 {
 "name": "User 1",
 "email": "user1@gmail.com",
-"password": "TopSecret30!",
+"password": "TopSecret1!",
 "username": "user1",
 "about": "I am a developer",
 "employment": "Developer",
-"hometown": "Malmö",
+"hometown": "Göteborg",
 "website": "https://www.developer.com"
 }
 HTTP 201
@@ -21,11 +21,11 @@ POST http://localhost:9000/signup
 {
 "name": "User 2",
 "email": "user2@gmail.com",
-"password": "TopSecret45!",
+"password": "TopSecret2!",
 "username": "user2",
 "about": "I am a tester",
 "employment": "Tester",
-"hometown": "Helsinborg",
+"hometown": "Landvetter",
 "website": "https://www.tester.com"
 }
 HTTP 201
@@ -52,7 +52,7 @@ jsonpath "$.email" == "user1@gmail.com"
 jsonpath "$.username" == "user1"
 jsonpath "$.about" == "I am a developer"
 jsonpath "$.employment" == "Developer"
-jsonpath "$.hometown" == "Malmö"
+jsonpath "$.hometown" == "Göteborg"
 jsonpath "$.website" == "https://www.developer.com"
 
 # Get user profile by ID
@@ -65,7 +65,7 @@ jsonpath "$.email" == "user2@gmail.com"
 jsonpath "$.username" == "user2"
 jsonpath "$.about" == "I am a tester"
 jsonpath "$.employment" == "Tester"
-jsonpath "$.hometown" == "Helsingborg"
+jsonpath "$.hometown" == "Landvetter"
 jsonpath "$.website" == "https://www.tester.com"
 
 # Post a new tweet
