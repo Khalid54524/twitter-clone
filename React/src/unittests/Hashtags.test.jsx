@@ -17,3 +17,11 @@ describe("<Hashtags />", () => {
       expect(item).toBeInTheDocument();
     });
   });
+
+  test("Check what happens with a empty array", () => {
+    render(<Hashtags hashtags={[]} />);
+
+    const list = screen.queryAllByRole("listitem");
+    expect(list).toHaveLength(0);
+  });
+});
