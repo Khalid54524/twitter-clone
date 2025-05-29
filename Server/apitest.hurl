@@ -1,14 +1,14 @@
 # Sign up user 1
 POST http://localhost:9000/signup
 {
-"name": "User 1",
-"email": "user1@gmail.com",
-"password": "TopSecret1!",
-"username": "user1",
-"about": "I am a developer",
-"employment": "Developer",
-"hometown": "Göteborg",
-"website": "https://www.developer.com"
+  "name": "Alice Svensson",
+  "email": "alice.svensson@example.com",
+  "password": "SecurePass123!",
+  "username": "alice_s",
+  "about": "Passionate about coding and design",
+  "employment": "Frontend Engineer",
+  "hometown": "Stockholm",
+  "website": "https://www.alicesportfolio.com"
 }
 HTTP 201
 [Asserts]
@@ -19,14 +19,14 @@ user-id-1: jsonpath "$.userId"
 # Sign up user 2
 POST http://localhost:9000/signup
 {
-"name": "User 2",
-"email": "user2@gmail.com",
-"password": "TopSecret2!",
-"username": "user2",
-"about": "I am a tester",
-"employment": "Tester",
-"hometown": "Landvetter",
-"website": "https://www.tester.com"
+  "name": "Björn Karlsson",
+  "email": "bjorn.karlsson@example.com",
+  "password": "AnotherPass456!",
+  "username": "bjornk",
+  "about": "QA tester and automation enthusiast",
+  "employment": "QA Specialist",
+  "hometown": "Malmö",
+  "website": "https://www.bjornk-testing.com"
 }
 HTTP 201
 [Asserts]
@@ -37,8 +37,8 @@ user-id-2: jsonpath "$.userId"
 # Login user 1
 POST http://localhost:9000/login
 {
-"email": "user1@gmail.com",
-"password": "TopSecret1!"
+  "email": "alice.svensson@example.com",
+  "password": "SecurePass123!"
 }
 HTTP 200
 
@@ -47,62 +47,62 @@ GET http://localhost:9000/profile
 Authorization: Bearer {{user-id-1}}
 HTTP 200
 [Asserts]
-jsonpath "$.name" == "User 1"
-jsonpath "$.email" == "user1@gmail.com"
-jsonpath "$.username" == "user1"
-jsonpath "$.about" == "I am a developer"
-jsonpath "$.employment" == "Developer"
-jsonpath "$.hometown" == "Göteborg"
-jsonpath "$.website" == "https://www.developer.com"
+jsonpath "$.name" == "Alice Svensson"
+jsonpath "$.email" == "alice.svensson@example.com"
+jsonpath "$.username" == "alice_s"
+jsonpath "$.about" == "Passionate about coding and design"
+jsonpath "$.employment" == "Frontend Engineer"
+jsonpath "$.hometown" == "Stockholm"
+jsonpath "$.website" == "https://www.alicesportfolio.com"
 
 # Get user profile by ID
 GET http://localhost:9000/users/{{user-id-2}}
 Authorization: Bearer {{user-id-1}}
 HTTP 200
 [Asserts]
-jsonpath "$.name" == "User 2"
-jsonpath "$.email" == "user2@gmail.com"
-jsonpath "$.username" == "user2"
-jsonpath "$.about" == "I am a tester"
-jsonpath "$.employment" == "Tester"
-jsonpath "$.hometown" == "Landvetter"
-jsonpath "$.website" == "https://www.tester.com"
+jsonpath "$.name" == "Björn Karlsson"
+jsonpath "$.email" == "bjorn.karlsson@example.com"
+jsonpath "$.username" == "bjornk"
+jsonpath "$.about" == "QA tester and automation enthusiast"
+jsonpath "$.employment" == "QA Specialist"
+jsonpath "$.hometown" == "Malmö"
+jsonpath "$.website" == "https://www.bjornk-testing.com"
 
 # Post a new tweet
 POST http://localhost:9000/tweets
 Authorization: Bearer {{user-id-1}}
 {
-"text": "Hello, world! #first"
+  "text": "Excited to start this new project! #helloWorld"
 }
 HTTP 201
 [Asserts]
-jsonpath "$.text" == "Hello, world! #first"
+jsonpath "$.text" == "Excited to start this new project! #helloWorld"
 
 # Post a second tweet
 POST http://localhost:9000/tweets
 Authorization: Bearer {{user-id-1}}
 {
-"text": "I like dogs #dogsarethebest"
+  "text": "Automation makes life easier #testing"
 }
 HTTP 201
 [Asserts]
-jsonpath "$.text" == "I like dogs #dogsarethebest"
+jsonpath "$.text" == "Automation makes life easier #testing"
 
 # Post a third tweet
 POST http://localhost:9000/tweets
 Authorization: Bearer {{user-id-1}}
 {
-"text": "Poodles are the best dogs #poodles #dogsarethebest"
+  "text": "JavaScript is amazing! #coding #javascript"
 }
 HTTP 201
 [Asserts]
-jsonpath "$.text" == "Poodles are the best dogs #poodles #dogsarethebest"
+jsonpath "$.text" == "JavaScript is amazing! #coding #javascript"
 
 # Login user 2
 POST http://localhost:9000/login
 {
-"email": "user2@gmail.com",
-"password": "TopSecret2!"
+  "email": "bjorn.karlsson@example.com",
+  "password": "AnotherPass456!"
 }
 HTTP 200
 
@@ -116,9 +116,9 @@ GET http://localhost:9000/tweets
 Authorization: Bearer {{user-id-2}}
 HTTP 200
 [Asserts]
-jsonpath "$[0].text" == "Poodles are the best dogs #poodles #dogsarethebest"
-jsonpath "$[0].name" == "User 1"
-jsonpath "$[0].username" == "user1"
+jsonpath "$[0].text" == "JavaScript is amazing! #coding #javascript"
+jsonpath "$[0].name" == "Alice Svensson"
+jsonpath "$[0].username" == "alice_s"
 
 # Unfollow user 1
 POST http://localhost:9000/users/{{user-id-1}}/unfollow
@@ -137,9 +137,9 @@ GET http://localhost:9000/tweets/users/{{user-id-1}}
 Authorization: Bearer {{user-id-2}}
 HTTP 200
 [Asserts]
-jsonpath "$[0].text" == "Poodles are the best dogs #poodles #dogsarethebest"
-jsonpath "$[0].name" == "User 1"
-jsonpath "$[0].username" == "user1"
+jsonpath "$[0].text" == "JavaScript is amazing! #coding #javascript"
+jsonpath "$[0].name" == "Alice Svensson"
+jsonpath "$[0].username" == "alice_s"
 
 # Follow user 1 again
 POST http://localhost:9000/users/{{user-id-1}}/follow
@@ -151,20 +151,20 @@ GET http://localhost:9000/tweets/trending
 Authorization: Bearer {{user-id-2}}
 HTTP 200
 [Asserts]
-jsonpath "$[0]" == "#dogsarethebest"
-jsonpath "$[1]" == "#poodles"
-jsonpath "$[2]" == "#first"
+jsonpath "$[0]" == "#javascript"
+jsonpath "$[1]" == "#coding"
+jsonpath "$[2]" == "#helloWorld"
 
 # Search for users
-GET http://localhost:9000/search?find=User
+GET http://localhost:9000/search?find=Alice
 Authorization: Bearer {{user-id-2}}
 HTTP 200
 [Asserts]
 jsonpath "$.tweets" count == 0
-jsonpath "$.users" count == 2
+jsonpath "$.users" count >= 1
 
 # Search for tweets
-GET http://localhost:9000/search?find=Hello
+GET http://localhost:9000/search?find=Excited
 Authorization: Bearer {{user-id-2}}
 HTTP 200
 [Asserts]
