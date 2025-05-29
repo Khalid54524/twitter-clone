@@ -21,3 +21,18 @@ const userSchema = new mongoose.Schema({
   followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 });
+const tweetSchema = new mongoose.Schema({
+    text: { type: String, required: true, maxlength: 140 },
+    postedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    hashtags: [String],
+    date: { type: Date, default: Date.now },
+  });
+  
+  const User = mongoose.model("User", userSchema);
+  const Tweet = mongoose.model("Tweet", tweetSchema);
+  
+  export { User, Tweet }; // skapa model och exportera
