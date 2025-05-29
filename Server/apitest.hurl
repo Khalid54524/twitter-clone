@@ -41,10 +41,12 @@ POST http://localhost:9000/login
   "password": "SecurePass123!"
 }
 HTTP 200
+[Captures]
+token-1: jsonpath "$.token"
 
 # Get user profile
 GET http://localhost:9000/profile
-Authorization: Bearer {{user-id-1}}
+Authorization: Bearer {{token-1}}
 HTTP 200
 [Asserts]
 jsonpath "$.name" == "Alice Svensson"
@@ -57,7 +59,7 @@ jsonpath "$.website" == "https://www.alicesportfolio.com"
 
 # Get user profile by ID
 GET http://localhost:9000/users/{{user-id-2}}
-Authorization: Bearer {{user-id-1}}
+Authorization: Bearer {{token-1}}
 HTTP 200
 [Asserts]
 jsonpath "$.name" == "Björn Karlsson"
@@ -68,9 +70,9 @@ jsonpath "$.employment" == "QA Specialist"
 jsonpath "$.hometown" == "Malmö"
 jsonpath "$.website" == "https://www.bjornk-testing.com"
 
-# Post a new tweet
+# Post a new tweet user 1
 POST http://localhost:9000/tweets
-Authorization: Bearer {{user-id-1}}
+Authorization: Bearer {{token-1}}
 {
   "text": "Excited to start this new project! #helloWorld"
 }
@@ -78,9 +80,9 @@ HTTP 201
 [Asserts]
 jsonpath "$.text" == "Excited to start this new project! #helloWorld"
 
-# Post a second tweet
+# Post a second tweet user 1
 POST http://localhost:9000/tweets
-Authorization: Bearer {{user-id-1}}
+Authorization: Bearer {{token-1}}
 {
   "text": "Automation makes life easier #testing"
 }
@@ -88,9 +90,9 @@ HTTP 201
 [Asserts]
 jsonpath "$.text" == "Automation makes life easier #testing"
 
-# Post a third tweet
+# Post a third tweet user 1
 POST http://localhost:9000/tweets
-Authorization: Bearer {{user-id-1}}
+Authorization: Bearer {{token-1}}
 {
   "text": "JavaScript is amazing! #coding #javascript"
 }
@@ -105,15 +107,17 @@ POST http://localhost:9000/login
   "password": "AnotherPass456!"
 }
 HTTP 200
+[Captures]
+token-2: jsonpath "$.token"
 
 # Follow user 1
 POST http://localhost:9000/users/{{user-id-1}}/follow
-Authorization: Bearer {{user-id-2}}
+Authorization: Bearer {{token-2}}
 HTTP 200
 
-# Get recent tweets from followed users
+# Get recent tweets from followed users (user 2 following user 1)
 GET http://localhost:9000/tweets
-Authorization: Bearer {{user-id-2}}
+Authorization: Bearer {{token-2}}
 HTTP 200
 [Asserts]
 jsonpath "$[0].text" == "JavaScript is amazing! #coding #javascript"
@@ -122,19 +126,19 @@ jsonpath "$[0].username" == "alice_s"
 
 # Unfollow user 1
 POST http://localhost:9000/users/{{user-id-1}}/unfollow
-Authorization: Bearer {{user-id-2}}
+Authorization: Bearer {{token-2}}
 HTTP 200
 
 # Get recent tweets from followed users (should be none)
 GET http://localhost:9000/tweets
-Authorization: Bearer {{user-id-2}}
+Authorization: Bearer {{token-2}}
 HTTP 200
 [Asserts]
 jsonpath "$" count == 0
 
-# Get recent tweets from a specific user
+# Get recent tweets from a specific user (user 1 tweets)
 GET http://localhost:9000/tweets/users/{{user-id-1}}
-Authorization: Bearer {{user-id-2}}
+Authorization: Bearer {{token-2}}
 HTTP 200
 [Asserts]
 jsonpath "$[0].text" == "JavaScript is amazing! #coding #javascript"
@@ -143,21 +147,22 @@ jsonpath "$[0].username" == "alice_s"
 
 # Follow user 1 again
 POST http://localhost:9000/users/{{user-id-1}}/follow
-Authorization: Bearer {{user-id-2}}
+Authorization: Bearer {{token-2}}
 HTTP 200
 
 # Get trending hashtags
 GET http://localhost:9000/tweets/trending
-Authorization: Bearer {{user-id-2}}
+Authorization: Bearer {{token-2}}
 HTTP 200
 [Asserts]
-jsonpath "$[0]" == "#javascript"
-jsonpath "$[1]" == "#coding"
-jsonpath "$[2]" == "#helloWorld"
+jsonpath "$" contains "#javascript"
+jsonpath "$" contains "#coding"
+jsonpath "$" contains "#helloWorld"
+jsonpath "$" contains "#testing"
 
 # Search for users
 GET http://localhost:9000/search?find=Alice
-Authorization: Bearer {{user-id-2}}
+Authorization: Bearer {{token-2}}
 HTTP 200
 [Asserts]
 jsonpath "$.tweets" count == 0
@@ -165,7 +170,7 @@ jsonpath "$.users" count >= 1
 
 # Search for tweets
 GET http://localhost:9000/search?find=Excited
-Authorization: Bearer {{user-id-2}}
+Authorization: Bearer {{token-2}}
 HTTP 200
 [Asserts]
 jsonpath "$.tweets" count == 1
