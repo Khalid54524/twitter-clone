@@ -11,3 +11,10 @@ export default function Footer({ user, handleLogout }) {
           </div>  
         </div>
       )}
+
+<div className="footer-right">
+        <button className="logout-btn" onClick={handleLogout}>Logout</button>
+      </div>
+    </div>
+  );
+}
